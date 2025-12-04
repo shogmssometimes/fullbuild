@@ -25,12 +25,12 @@ const SubAppFrame: React.FC<{ title: string; src: string; onBack: () => void; no
 }) => {
   return (
     <main style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <header style={{ padding: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <h1 style={{ margin: 0 }}>{title}</h1>
-          {note ? <p style={{ margin: 0, color: "var(--muted)" }}>{note}</p> : null}
+      <header className="topbar">
+        <button className="ghost-btn" onClick={onBack}>← Back to hub</button>
+        <div className="topbar-title">
+          <div className="muted" style={{ fontSize: "0.85rem" }}>Collapse Full Build</div>
+          <strong>{title}</strong>
         </div>
-        <button onClick={onBack}>← Back to hub</button>
       </header>
       <div style={{ flex: 1, minHeight: 0 }}>
         <iframe
@@ -45,11 +45,28 @@ const SubAppFrame: React.FC<{ title: string; src: string; onBack: () => void; no
   );
 };
 
+const CompanionShell: React.FC<{ onBack: () => void; children: React.ReactNode }> = ({ onBack, children }) => (
+  <div style={{ minHeight: "100vh", background: "var(--bg-dark)" }}>
+    <header className="topbar">
+      <button className="ghost-btn" onClick={onBack} aria-label="Back to hub">
+        ← Back to hub
+      </button>
+      <div className="topbar-title">
+        <div className="muted" style={{ fontSize: "0.85rem" }}>
+          Collapse Full Build
+        </div>
+        <strong>Collapse Companion</strong>
+      </div>
+    </header>
+    {children}
+  </div>
+);
+
 const HubLanding: React.FC<{ onNavigate: (route: Route) => void }> = ({ onNavigate }) => {
   const cardStyles: React.CSSProperties = {
     border: "1px solid var(--border)",
     borderRadius: 16,
-    padding: "1.25rem",
+    padding: "1rem",
     background: "var(--surface)",
     minHeight: 180,
     display: "flex",
@@ -84,8 +101,21 @@ const HubLanding: React.FC<{ onNavigate: (route: Route) => void }> = ({ onNaviga
 
   return (
     <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ width: "min(1100px, 100%)", padding: "2rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "1rem", flexWrap: "wrap" }}>
+      <div
+        style={{
+          width: "min(1100px, 100%)",
+          padding: "1.25rem 1rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            gap: "0.75rem",
+            flexWrap: "wrap",
+          }}
+        >
           <div>
             <h1 style={{ margin: "0 0 0.35rem 0" }}>Collapse Full Build</h1>
             <p style={{ margin: 0, color: "var(--muted)" }}>
@@ -94,7 +124,14 @@ const HubLanding: React.FC<{ onNavigate: (route: Route) => void }> = ({ onNaviga
           </div>
           <span style={{ color: "var(--muted)", fontSize: "0.95rem" }}>{buildPath("")}</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem", marginTop: "1.5rem" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "1rem",
+            marginTop: "1.1rem",
+          }}
+        >
           {cards.map((card) => (
             <div key={card.id} style={cardStyles}>
               <div>
@@ -156,7 +193,11 @@ export default function App() {
     if (!role) {
       return <RoleSelectLanding onSelect={setRole} />;
     }
-    return <DeckBuilder />;
+    return (
+      <CompanionShell onBack={() => setRoute("hub")}>
+        <DeckBuilder />
+      </CompanionShell>
+    );
   }
 
   if (route === "chud") {

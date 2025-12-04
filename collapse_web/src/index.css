@@ -62,17 +62,52 @@ button:hover {
   border-color: var(--accent);
 }
 
+/* Ghost button for navigation/back actions */
+.ghost-btn {
+  border-color: transparent;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0.35rem;
+}
+.ghost-btn:hover {
+  border-color: transparent;
+  color: var(--accent);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, rgba(12,12,12,0.96), rgba(12,12,12,0.9));
+  border-bottom: 1px solid var(--separator);
+}
+.topbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 main {
   padding-bottom: 3rem;
 }
 
 .app-shell {
-  width: min(100%, 1100px);
+  width: 100%;
   margin: 0 auto;
-  padding: 0.6rem;
+  padding: 0.8rem 0.9rem;
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+@media (min-width: 960px) {
+  .app-shell {
+    width: min(100%, 1100px);
+    padding: 1rem;
+  }
 }
 
 .ops-toolbar,
