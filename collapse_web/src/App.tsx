@@ -32,11 +32,11 @@ const SubAppFrame: React.FC<{ title: string; src: string; onBack: () => void; no
           <strong>{title}</strong>
         </div>
       </header>
-      <div style={{ flex: 1, minHeight: 0 }}>
+      <div className="subapp-frame">
         <iframe
           title={title}
           src={src}
-          style={{ border: "none", width: "100%", height: "100%" }}
+          style={{ border: "none" }}
           allow="fullscreen"
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-pointer-lock"
         />
